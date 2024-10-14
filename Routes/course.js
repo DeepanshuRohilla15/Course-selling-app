@@ -8,7 +8,9 @@ courseRouter.post("/purchases", function(req, res){
 })
 
 courseRouter.get("/preview", function(req, res){
-
+    res.json({
+        message: "See all the courses"
+    })
 })
 
 module.exports = {
