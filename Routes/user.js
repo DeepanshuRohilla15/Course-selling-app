@@ -2,6 +2,8 @@ const {Router} = require("express");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const {userModel} = require("../db");
+const  jwt = require("jsonwebtoken");
+const JWT_USER_PASSWORD = "aldadscn23";
 
 const userRouter = Router();
 
@@ -49,8 +51,27 @@ userRouter.post("/signup",async function(req, res){
 
 })
 
-userRouter.post("/signin", function(req, res){
+userRouter.post("/signin",async function(req, res){
+    const {email, password} = req.body;
+    const hashPassword = await bcrypt.hash(password, 5);
+    const user = userModel.findOne({ // either the user or undefined
+        email: email,
+        password: hashPassword
+    });
 
+    if(user){
+        const token = jwt.sign({
+            id: user._id
+        }, JWT_USER_PASSWORD);
+
+        res.json({
+            token: token
+        })
+    } else {
+        res.status(403).json({
+            message: "Incorrect credentials"
+        })
+    }
 })
 
 userRouter.get("/purchases", function(req, res){

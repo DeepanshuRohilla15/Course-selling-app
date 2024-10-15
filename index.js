@@ -13,7 +13,7 @@ app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/course", courseRouter);
 
 async function main(){
-    await mongoose.connect("mongodb+srv://admin:Deepanshu1234@cluster0.8ztc4.mongodb.net/course-selling");
+    await mongoose.connect("mongodb+srv://admin:Deepanshu1234@cluster0.8ztc4.mongodb.net/course-selling-app");
     app.listen(3000);
 }
 
