@@ -10,6 +10,9 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/course", courseRouter);
 
+async function main(){
+    await mongoose.connect("mongodb+srv://admin:Deepanshu1234@cluster0.8ztc4.mongodb.net/course-selling");
+    app.listen(3000);
+}
 
-await mongoose.connect("");
-app.listen(3000);
+main();
