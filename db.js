@@ -6,14 +6,14 @@ const userSchema = new Schema({
     email: {type: String , unique: true},
     password: String,
     firstName: String,
-    lastname: String
+    lastName: String
 })
 
 const adminSchema = new Schema({
     email: {type: String , unique: true},
     password: String,
     firstName: String,
-    lastname: String
+    lastName: String
 })
 
 const courseSchema = new Schema({

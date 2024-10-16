@@ -8,7 +8,6 @@ const JWT_USER_PASSWORD = "aldadscn23";
 const userRouter = Router();
 
 userRouter.post("/signup",async function(req, res){
-    const { email, password, firstName, lastName } = req.body;
     // adding zod for input validation
     const requiredBody = z.object({
         email: z.string().min(3).max(100).email(),
@@ -27,6 +26,8 @@ userRouter.post("/signup",async function(req, res){
         return
     }
 
+    const { email, password, firstName, lastName } = req.body;
+
     //hash the password
     const hashPassword = await bcrypt.hash(password, 5);
 
@@ -37,7 +38,7 @@ userRouter.post("/signup",async function(req, res){
             email: email,
             password: hashPassword,
             firstName: firstName,
-            lastname: lastName
+            lastName: lastName
         })
     } catch(e){
         res.json({
@@ -53,13 +54,13 @@ userRouter.post("/signup",async function(req, res){
 
 userRouter.post("/signin",async function(req, res){
     const {email, password} = req.body;
-    const hashPassword = await bcrypt.hash(password, 5);
-    const user = userModel.findOne({ // either the user or undefined
-        email: email,
-        password: hashPassword
+
+    const user = await userModel.findOne({ // either the user or undefined
+        email
     });
 
-    if(user){
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if(user && passwordMatch){
         const token = jwt.sign({
             id: user._id
         }, JWT_USER_PASSWORD);
@@ -67,7 +68,8 @@ userRouter.post("/signin",async function(req, res){
         res.json({
             token: token
         })
-    } else {
+    }
+    else{
         res.status(403).json({
             message: "Incorrect credentials"
         })
