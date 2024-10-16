@@ -8,7 +8,7 @@ const JWT_USER_PASSWORD = "aldadscn23";
 const userRouter = Router();
 
 userRouter.post("/signup",async function(req, res){
-    // adding zod for input validation
+   // adding zod for input validation
     const requiredBody = z.object({
         email: z.string().min(3).max(100).email(),
         password: z.string().min(3).max(100),
@@ -48,7 +48,7 @@ userRouter.post("/signup",async function(req, res){
 
     res.json({
         message: "Signup succeeded"
-    })
+    }) 
 
 })
 
